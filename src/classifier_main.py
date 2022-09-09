@@ -9,16 +9,20 @@ import pandas as pd
 # from ingredient_parser import ingredient_parser
 import pickle
 import config 
-import unidecode, ast
+#import unidecode, ast
 
 # Top-N recomendations order by score
-def get_recommendations(N, res_class):
+def get_recommendations(res_class, N=5, r=False):
     # load in recipe dataset 
     df_recipes = pd.read_csv(config.PARSED_PATH_MINI)
     # order the scores with and filter to get the highest N scores
 #     new_scores = [x for x in scores if x > 0.5 ]
     #print(new_scores)
-    df_data = df_recipes.loc[df_recipes['food types'] == res_class[0]].sample(n = 10)
+    df_data = None
+    if r:  
+        df_data = df_recipes.loc[df_recipes['food types'] == res_class[0]].sample(n = N)
+    else:
+        df_data = df_recipes.loc[df_recipes['food types'] == res_class[0]][:N]
 
     #top = sorted(range(len(df_data)), key=lambda i: df_data[i],  reverse=True)
     #print(len(top))
@@ -63,7 +67,7 @@ def title_parser(title):
     title = unidecode.unidecode(title)
     return title 
 
-def RecSys(inputs, N=5):
+def RecSys(inputs, N=5, r=False):
     """
     The reccomendation system takes in a list of inputs and returns a list of top N
     recipes based of classifer model function. 
@@ -78,27 +82,18 @@ def RecSys(inputs, N=5):
 
     recipe_class = classifier_model.predict(inputs)
     
-    recommendations = get_recommendations(N, recipe_class)
+    recommendations = get_recommendations(recipe_class, N, r)
     
     return recommendations
 
 if __name__ == "__main__":
     # test ingredients
     inputs = [[5, 6, 5, 8.2, 0.0, 10.0, 2.0, 0.0, 0.0, 0.0]]
-    recs = RecSys(inputs)
+    cut_n = 10
+    random_n = True
+    recs = RecSys(inputs, cut_n, random_n)
     print(recs)
     #print(scores)
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
 
 
 
