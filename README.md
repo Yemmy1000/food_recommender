@@ -22,3 +22,8 @@ Also Note that the input is a text input
 =======
 recipe recommender
 >>>>>>> 4ae6a4b (Initial commit)
+
+* The Recipe parser is already included
+* The Classifier.py has been updated to include 
+    - cut_n (number to show )
+    - random_n (TRUE/FALSE - to determine random fetch or not) 
