@@ -46,7 +46,8 @@ def ingredient_parser_final(ingredient):
     if isinstance(ingredient, list):
         ingredients = ingredient
     else:
-        ingredients = ast.literal_eval(ingredient)
+        #ingredients = ast.literal_eval(ingredient)
+        ingredients = list(ingredient)
     
     ingredients = ','.join(ingredients)
     ingredients = unidecode.unidecode(ingredients)
